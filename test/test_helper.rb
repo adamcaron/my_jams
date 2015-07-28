@@ -17,4 +17,15 @@ class ActionDispatch::IntegrationTest
   def teardown
     reset_session!
   end
+
+  def login_user!
+    user = User.create(username: "Adam", password: "asdf")
+
+    visit login_path
+    fill_in "Username", with: user.username
+    fill_in "Password", with: "asdf"
+    click_button "Login"
+
+    assert page.has_content?("Welcome, Adam!")
+  end
 end
